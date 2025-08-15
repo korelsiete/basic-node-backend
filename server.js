@@ -11,6 +11,19 @@ const server = http.createServer((req, res) => {
   if (req.url === "/users" && req.method === "GET") {
     res.writeHead(200);
     res.end(JSON.stringify(users));
+  } else if (req.url.startsWith("/users/") && req.method === "GET") {
+    const parts = req.url.split("/");
+    const id = Number(parts[2]);
+
+    const user = users.find((u) => u.id === id);
+
+    if (user) {
+      res.writeHead(200);
+      res.end(JSON.stringify(user));
+    } else {
+      res.writeHead(404);
+      res.end(JSON.stringify({ error: "User not founded" }));
+    }
   } else if (req.url === "/users" && req.method === "POST") {
     let body = "";
 
