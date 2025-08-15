@@ -43,6 +43,33 @@ const server = http.createServer((req, res) => {
         res.end(JSON.stringify({ error: "Invalid JSON" }));
       }
     });
+  } else if (req.url.startsWith("/users/") && req.method === "PUT") {
+    const parts = req.url.split("/");
+    const id = Number(parts[2]);
+    let body = "";
+
+    req.on("data", (chunk) => {
+      body += chunk.toString();
+    });
+
+    req.on("end", () => {
+      try {
+        const updateData = JSON.parse(body);
+        const index = users.findIndex((u) => u.id === id);
+
+        if (index !== -1) {
+          users[index] = { ...users[index], ...updateData };
+          res.writeHead(200);
+          res.end(JSON.stringify(users[index]));
+        } else {
+          res.writeHead(404);
+          res.end(JSON.stringify({ error: "User not founded" }));
+        }
+      } catch (error) {
+        res.writeHead(400);
+        res.end(JSON.stringify({ error: "Invalid JSON" }));
+      }
+    });
   } else {
     res.writeHead(404);
     res.end(JSON.stringify({ error: "Url not founded" }));
