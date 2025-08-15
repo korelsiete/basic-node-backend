@@ -11,9 +11,28 @@ const server = http.createServer((req, res) => {
   if (req.url === "/users" && req.method === "GET") {
     res.writeHead(200);
     res.end(JSON.stringify(users));
+  } else if (req.url === "/users" && req.method === "POST") {
+    let body = "";
+
+    req.on("data", (chunk) => {
+      body += chunk.toString();
+    });
+
+    req.on("end", () => {
+      try {
+        const newUser = JSON.parse(body);
+        newUser.id = users.length ? users.at(-1).id + 1 : 1;
+        users.push(newUser);
+        res.writeHead(201);
+        res.end(JSON.stringify(newUser));
+      } catch (error) {
+        res.writeHead(400);
+        res.end(JSON.stringify({ error: "Invalid JSON" }));
+      }
+    });
   } else {
     res.writeHead(404);
-    res.end(JSON.stringify({ error: "url not founded" }));
+    res.end(JSON.stringify({ error: "Url not founded" }));
   }
 });
 

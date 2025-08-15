@@ -1,0 +1,13 @@
+### GET - Listar usuarios
+GET http://localhost:3000/users
+Accept: application/json
+
+###
+
+### POST - Crear un nuevo usuario
+POST http://localhost:3000/users
+Content-Type: application/json
+
+{
+  "name": "Alice"
+}
