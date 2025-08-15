@@ -21,3 +21,7 @@ Content-Type: application/json
 {
   "name": "Stefano"
 }
+
+### DELETE - Delete a user
+DELETE  http://localhost:3000/users/1
+Accept: application/json

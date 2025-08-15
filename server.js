@@ -70,6 +70,19 @@ const server = http.createServer((req, res) => {
         res.end(JSON.stringify({ error: "Invalid JSON" }));
       }
     });
+  } else if (req.url.startsWith("/users/") && req.method === "DELETE") {
+    const parts = req.url.split("/");
+    const id = Number(parts[2]);
+    const user = users.find((u) => u.id === id);
+
+    if (user) {
+      users = users.filter((u) => u.id !== id);
+      res.writeHead(200);
+      res.end(JSON.stringify({ message: "Deleted user", deleted: user }));
+    } else {
+      res.writeHead(404);
+      res.end(JSON.stringify({ error: "User not founded" }));
+    }
   } else {
     res.writeHead(404);
     res.end(JSON.stringify({ error: "Url not founded" }));
