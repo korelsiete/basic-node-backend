@@ -1,11 +1,6 @@
-const http = require("http");
-const handleUsers = require("./routes/users.routes");
+const app = require("./src/app");
+const PORT = process.env.PORT || 3000;
 
-const server = http.createServer((req, res) => {
-  res.setHeader("Content-Type", "application/json");
-  handleUsers(req, res);
-});
-
-server.listen(3000, () => {
-  console.log("Server running on port 3000");
+app.listen(PORT, () => {
+  console.log(`Server running on http://localhost:${PORT}`);
 });

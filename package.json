@@ -9,5 +9,8 @@
   "keywords": [],
   "author": "korelsiete <stefanoypf@gmail.com>",
   "license": "MIT",
-  "type": "commonjs"
+  "type": "commonjs",
+  "dependencies": {
+    "express": "^5.1.0"
+  }
 }
